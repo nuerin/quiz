@@ -1,0 +1,3261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LAB: Q</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #20232a;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            max-width: 480px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            padding: 22px 20px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #667eea;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-btn {
+            border: none;
+            background: #f1f3f8;
+            border-radius: 12px;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           COMMON
+        ========================= */
+
+        .screen {
+            display: none;
+            padding-bottom: 40px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 28px 0 14px;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #8b909c;
+            margin-top: -7px;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           HOME
+        ========================= */
+
+        .hero {
+            margin: 20px;
+            padding: 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .hero-small {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            margin: 10px 0 8px;
+            font-size: 25px;
+            line-height: 1.35;
+        }
+
+        .hero p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .daily-info {
+            margin-top: 20px;
+            background: rgba(255,255,255,0.15);
+            padding: 14px;
+            border-radius: 15px;
+        }
+
+        .daily-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .daily-bar {
+            width: 100%;
+            height: 7px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .daily-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 20px;
+        }
+
+        .quick-start {
+            margin-top: 15px;
+            width: 100%;
+            border: none;
+            background: white;
+            color: #667eea;
+            font-weight: 800;
+            padding: 13px;
+            border-radius: 13px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e4e7ee;
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+            background: #fafbfe;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+        }
+
+        /* =========================
+           SUBJECT CARDS
+        ========================= */
+
+        .subjects {
+            padding: 0 20px;
+        }
+
+        .subject-card {
+            width: 100%;
+            border: 1px solid #e9ebf1;
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 12px;
+            text-align: left;
+            transition: 0.15s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(0,0,0,0.06);
+        }
+
+        .subject-header {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .subject-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            background: #f0f2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .subject-name {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .subject-desc {
+            font-size: 12px;
+            color: #9297a3;
+            margin-top: 4px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 11px;
+            color: #8d929d;
+        }
+
+        .progress {
+            height: 6px;
+            background: #edf0f5;
+            border-radius: 20px;
+            margin-top: 7px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #667eea;
+            border-radius: 20px;
+        }
+
+        /* =========================
+           QUICK MENU
+        ========================= */
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
+        }
+
+        .menu-card {
+            border: none;
+            background: #f7f8fc;
+            border-radius: 18px;
+            padding: 18px;
+            text-align: left;
+        }
+
+        .menu-icon {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .menu-title {
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .menu-desc {
+            color: #8d929d;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           MODE SCREEN
+        ========================= */
+
+        .back-btn {
+            margin: 18px 20px 5px;
+            border: none;
+            background: transparent;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #666;
+        }
+
+        .mode-title {
+            padding: 0 20px;
+            margin-top: 22px;
+        }
+
+        .mode-title h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .mode-title p {
+            color: #9095a0;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .mode-list {
+            padding: 15px 20px;
+        }
+
+        .mode-card {
+            width: 100%;
+            border: 1px solid #e8eaf0;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 12px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mode-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            background: #f1f3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .mode-name {
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .mode-desc {
+            margin-top: 5px;
+            color: #9196a2;
+            font-size: 12px;
+        }
+
+        /* =========================
+           QUIZ
+        ========================= */
+
+        .quiz-screen {
+            min-height: 100vh;
+        }
+
+        .quiz-top {
+            padding: 18px 20px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-exit {
+            border: none;
+            background: #f2f3f7;
+            padding: 9px 12px;
+            border-radius: 11px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .quiz-subject {
+            font-size: 13px;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .question-number {
+            font-size: 13px;
+            color: #858b97;
+            font-weight: 700;
+        }
+
+        .quiz-progress {
+            height: 6px;
+            background: #eceef4;
+            margin: 0 20px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #667eea;
+            border-radius: 20px;
+            transition: 0.2s;
+        }
+
+        .question-area {
+            padding: 32px 20px 10px;
+        }
+
+        .question-area h2 {
+            font-size: 21px;
+            line-height: 1.5;
+            margin: 0;
+            word-break: keep-all;
+        }
+
+        .options {
+            padding: 18px 20px;
+        }
+
+        .option {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 11px;
+            background: white;
+            border: 1px solid #e3e6ed;
+            border-radius: 15px;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            border-color: #4caf50;
+            background: #effaf1;
+        }
+
+        .option.wrong {
+            border-color: #f44336;
+            background: #fff2f2;
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        .explanation {
+            display: none;
+            margin: 5px 20px 20px;
+            padding: 18px;
+            border-radius: 16px;
+            background: #f6f7fb;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .answer-status {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .answer-status.correct-text {
+            color: #2e8b3c;
+        }
+
+        .answer-status.wrong-text {
+            color: #d93636;
+        }
+
+        .explanation-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555b67;
+        }
+
+        .next-btn {
+            width: calc(100% - 40px);
+            margin: 0 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            background: #667eea;
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .next-btn:disabled {
+            background: #d8dbe4;
+            cursor: default;
+        }
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result {
+            text-align: center;
+            padding: 70px 25px 30px;
+        }
+
+        .result-icon {
+            font-size: 55px;
+        }
+
+        .result h1 {
+            font-size: 28px;
+            margin: 15px 0 8px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 900;
+            color: #667eea;
+            margin: 25px 0;
+        }
+
+        .result p {
+            color: #858b96;
+            font-size: 14px;
+        }
+
+        .result-buttons {
+            margin-top: 35px;
+        }
+
+        .result-buttons button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .primary-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #f0f2f7;
+            color: #333;
+        }
+
+        /* =========================
+           WRONG NOTEBOOK
+        ========================= */
+
+        .page-title {
+            padding: 25px 20px 5px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .page-title p {
+            margin-top: 8px;
+            color: #9297a2;
+            font-size: 13px;
+        }
+
+        .wrong-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 18px 20px 10px;
+            overflow-x: auto;
+        }
+
+        .wrong-tab {
+            border: none;
+            background: #f0f2f7;
+            color: #737985;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .wrong-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .wrong-list {
+            padding: 10px 20px;
+        }
+
+        .wrong-card {
+            border: 1px solid #e8eaf0;
+            border-radius: 18px;
+            padding: 17px;
+            margin-bottom: 12px;
+        }
+
+        .wrong-subject {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #667eea;
+            background: #f0f2ff;
+            padding: 5px 8px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .wrong-question {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .wrong-answer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666c78;
+            line-height: 1.5;
+        }
+
+        .remove-wrong {
+            margin-top: 12px;
+            border: none;
+            background: #f3f4f7;
+            border-radius: 9px;
+            padding: 7px 10px;
+            font-size: 11px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 70px 20px;
+            color: #9ba0aa;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           MY PAGE
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: #f7f8fc;
+            border-radius: 17px;
+            padding: 18px 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .stat-label {
+            margin-top: 6px;
+            color: #9297a2;
+            font-size: 11px;
+        }
+
+        .my-section {
+            padding: 0 20px;
+        }
+
+        .my-subject {
+            padding: 18px;
+            border: 1px solid #e9ebf0;
+            border-radius: 18px;
+            margin-bottom: 12px;
+        }
+
+        .my-subject-top {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .reset-btn {
+            width: calc(100% - 40px);
+            margin: 20px;
+            padding: 14px;
+            border: none;
+            background: #f1f2f5;
+            border-radius: 14px;
+            color: #777c86;
+            font-weight: 700;
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            transform: translateX(-50%);
+            background: #252830;
+            color: white;
+            padding: 12px 17px;
+            border-radius: 12px;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.25s;
+            z-index: 100;
+            max-width: 85%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        @media (min-width: 481px) {
+            body {
+                padding: 20px 0;
+            }
+
+            .app {
+                min-height: calc(100vh - 40px);
+                border-radius: 25px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         HOME
+    ========================= -->
+
+    <div id="homeScreen" class="screen active">
+
+        <header>
+            <div class="logo">LAB<span>: Q</span></div>
+
+            <div class="header-right">
+                <button class="header-btn" onclick="showWrongNotebook()">
+                    오답
+                </button>
+
+                <button class="header-btn" onclick="showMyPage()">
+                    MY
+                </button>
+            </div>
+        </header>
+
+        <div class="hero">
+
+            <div class="hero-small">
+                TODAY'S STUDY
+            </div>
+
+            <h1>
+                오늘도 전공 공부<br>
+                해볼까요?
+            </h1>
+
+            <p>
+                여러 과목에서 랜덤으로 5문제를 풀어보세요.
+            </p>
+
+            <div class="daily-info">
+
+                <div class="daily-top">
+                    <span>오늘의 목표</span>
+                    <span id="dailyCount">0 / 5</span>
+                </div>
+
+                <div class="daily-bar">
+                    <div
+                        id="dailyBarFill"
+                        class="daily-bar-fill"
+                    ></div>
+                </div>
+
+                <button
+                    class="quick-start"
+                    onclick="startDailyQuiz()"
+                >
+                    오늘의 5문제 시작 →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title" style="padding:0 20px;">
+            과목 선택
+        </div>
+
+        <div class="search-box">
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="과목 검색"
+                oninput="searchSubjects()"
+            >
+        </div>
+
+        <div
+            class="section-subtitle"
+            style="padding:0 20px; margin-top:14px;"
+        >
+            원하는 과목을 선택해서 공부해보세요.
+        </div>
+
+
+        <div id="subjectList" class="subjects">
+
+            <button
+                class="subject-card"
+                data-name="혈액학"
+                onclick="selectSubject('hematology')"
+            >
+
+                <div class="subject-header">
+
+                    <div class="subject-icon">
+                        🩸
+                    </div>
+
+                    <div>
+                        <div class="subject-name">
+                            혈액학
+                        </div>
+
+                        <div class="subject-desc">
+                            Hematology · 20문제
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="progress-info">
+                    <span>학습 진행률</span>
+                    <span id="hematologyProgressText">
+                        0%
+                    </span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="hematologyProgress"
+                        class="progress-fill"
+                    ></div>
+                </div>
+
+            </button>
+
+
+            <button
+                class="subject-card"
+                data-name="생리학"
+                onclick="selectSubject('physiology')"
+            >
+
+                <div class="subject-header">
+
+                    <div class="subject-icon">
+                        🫀
+                    </div>
+
+                    <div>
+                        <div class="subject-name">
+                            생리학
+                        </div>
+
+                        <div class="subject-desc">
+                            Physiology · 20문제
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="progress-info">
+                    <span>학습 진행률</span>
+                    <span id="physiologyProgressText">
+                        0%
+                    </span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="physiologyProgress"
+                        class="progress-fill"
+                    ></div>
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <div class="section-title" style="padding:0 20px;">
+            바로가기
+        </div>
+
+        <div class="menu-grid">
+
+            <button
+                class="menu-card"
+                onclick="showWrongNotebook()"
+            >
+                <div class="menu-icon">📕</div>
+
+                <div class="menu-title">
+                    오답노트
+                </div>
+
+                <div class="menu-desc">
+                    틀린 문제 다시 보기
+                </div>
+            </button>
+
+
+            <button
+                class="menu-card"
+                onclick="showMyPage()"
+            >
+                <div class="menu-icon">📊</div>
+
+                <div class="menu-title">
+                    학습 기록
+                </div>
+
+                <div class="menu-desc">
+                    나의 공부 기록 확인
+                </div>
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MODE SCREEN
+    ========================= -->
+
+    <div id="modeScreen" class="screen">
+
+        <button
+            class="back-btn"
+            onclick="goHome()"
+        >
+            ← 홈으로
+        </button>
+
+        <div class="mode-title">
+
+            <h1 id="modeSubjectTitle">
+                혈액학
+            </h1>
+
+            <p>
+                원하는 학습 방법을 선택하세요.
+            </p>
+
+        </div>
+
+
+        <div class="mode-list">
+
+            <button
+                class="mode-card"
+                onclick="startQuiz('basic')"
+            >
+
+                <div class="mode-icon">
+                    📖
+                </div>
+
+                <div>
+                    <div class="mode-name">
+                        기본 학습
+                    </div>
+
+                    <div class="mode-desc">
+                        문제를 순서대로 풀면서 해설을 확인해요.
+                    </div>
+                </div>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                onclick="startQuiz('random')"
+            >
+
+                <div class="mode-icon">
+                    🎲
+                </div>
+
+                <div>
+                    <div class="mode-name">
+                        랜덤 퀴즈
+                    </div>
+
+                    <div class="mode-desc">
+                        문제 순서를 랜덤으로 섞어서 풀어요.
+                    </div>
+                </div>
+
+            </button>
+
+
+            <button
+                class="mode-card"
+                onclick="startQuiz('wrong')"
+            >
+
+                <div class="mode-icon">
+                    📕
+                </div>
+
+                <div>
+                    <div class="mode-name">
+                        오답 복습
+                    </div>
+
+                    <div class="mode-desc">
+                        틀렸던 문제만 다시 풀어봐요.
+                    </div>
+                </div>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         QUIZ SCREEN
+    ========================= -->
+
+    <div id="quizScreen" class="screen quiz-screen">
+
+        <div class="quiz-top">
+
+            <div class="quiz-left">
+
+                <button
+                    class="quiz-exit"
+                    onclick="exitQuiz()"
+                >
+                    ← 나가기
+                </button>
+
+                <div
+                    id="quizSubject"
+                    class="quiz-subject"
+                >
+                    혈액학
+                </div>
+
+            </div>
+
+            <div
+                id="questionNumber"
+                class="question-number"
+            >
+                1 / 20
+            </div>
+
+        </div>
+
+
+        <div class="quiz-progress">
+
+            <div
+                id="quizProgressFill"
+                class="quiz-progress-fill"
+            ></div>
+
+        </div>
+
+
+        <div class="question-area">
+
+            <h2 id="questionText">
+                문제가 들어갑니다.
+            </h2>
+
+        </div>
+
+
+        <div
+            id="options"
+            class="options"
+        >
+        </div>
+
+
+        <div
+            id="explanation"
+            class="explanation"
+        >
+
+            <div
+                id="answerStatus"
+                class="answer-status"
+            ></div>
+
+            <div
+                id="explanationText"
+                class="explanation-text"
+            ></div>
+
+        </div>
+
+
+        <button
+            id="nextButton"
+            class="next-btn"
+            onclick="nextQuestion()"
+            disabled
+        >
+            정답을 선택해주세요
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         RESULT SCREEN
+    ========================= -->
+
+    <div id="resultScreen" class="screen">
+
+        <div class="result">
+
+            <div class="result-icon">
+                🎉
+            </div>
+
+            <h1>
+                학습 완료!
+            </h1>
+
+            <div
+                id="resultScore"
+                class="result-score"
+            >
+                0 / 20
+            </div>
+
+            <p id="resultMessage">
+                잘했어요!
+            </p>
+
+
+            <div class="result-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="retryQuiz()"
+                >
+                    다시 풀기
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="goHome()"
+                >
+                    홈으로 돌아가기
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         WRONG NOTEBOOK
+    ========================= -->
+
+    <div id="wrongScreen" class="screen">
+
+        <button
+            class="back-btn"
+            onclick="goHome()"
+        >
+            ← 홈으로
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                오답노트
+            </h1>
+
+            <p>
+                틀린 문제를 과목별로 다시 확인해보세요.
+            </p>
+
+        </div>
+
+
+        <div class="wrong-tabs">
+
+            <button
+                id="wrongTabAll"
+                class="wrong-tab active"
+                onclick="setWrongFilter('all')"
+            >
+                전체
+            </button>
+
+            <button
+                id="wrongTabHematology"
+                class="wrong-tab"
+                onclick="setWrongFilter('hematology')"
+            >
+                🩸 혈액학
+            </button>
+
+            <button
+                id="wrongTabPhysiology"
+                class="wrong-tab"
+                onclick="setWrongFilter('physiology')"
+            >
+                🫀 생리학
+            </button>
+
+        </div>
+
+
+        <div
+            id="wrongList"
+            class="wrong-list"
+        >
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MY PAGE
+    ========================= -->
+
+    <div id="myScreen" class="screen">
+
+        <button
+            class="back-btn"
+            onclick="goHome()"
+        >
+            ← 홈으로
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+                MY
+            </h1>
+
+            <p>
+                나의 학습 기록을 확인해보세요.
+            </p>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div
+                    id="totalSolved"
+                    class="stat-number"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    푼 문제
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div
+                    id="totalCorrect"
+                    class="stat-number"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    정답
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div
+                    id="accuracy"
+                    class="stat-number"
+                >
+                    0%
+                </div>
+
+                <div class="stat-label">
+                    정답률
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title" style="padding:0 20px;">
+            과목별 기록
+        </div>
+
+
+        <div class="my-section">
+
+            <div class="my-subject">
+
+                <div class="my-subject-top">
+                    <span>🩸 혈액학</span>
+
+                    <span id="myHematologyAccuracy">
+                        0%
+                    </span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="myHematologyProgress"
+                        class="progress-fill"
+                    ></div>
+                </div>
+
+                <div
+                    id="myHematologyText"
+                    style="font-size:11px;color:#9297a2;margin-top:8px;"
+                >
+                    0 / 20 문제
+                </div>
+
+            </div>
+
+
+            <div class="my-subject">
+
+                <div class="my-subject-top">
+                    <span>🫀 생리학</span>
+
+                    <span id="myPhysiologyAccuracy">
+                        0%
+                    </span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="myPhysiologyProgress"
+                        class="progress-fill"
+                    ></div>
+                </div>
+
+                <div
+                    id="myPhysiologyText"
+                    style="font-size:11px;color:#9297a2;margin-top:8px;"
+                >
+                    0 / 20 문제
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="reset-btn"
+            onclick="resetAllData()"
+        >
+            학습 기록 초기화
+        </button>
+
+    </div>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+>
+    저장되었습니다.
+</div>
+
+
+<script>
+
+    /* =========================
+       문제 데이터
+    ========================= */
+
+    const hematologyQuestions = [
+
+        {
+            question: "혈액의 액체 성분으로 혈액세포가 떠 있는 것은?",
+            options: [
+                "혈장",
+                "혈소판",
+                "적혈구",
+                "백혈구"
+            ],
+            answer: 0,
+            explanation: "혈장은 혈액의 액체 성분으로, 혈액세포와 여러 물질을 운반합니다."
+        },
+
+        {
+            question: "적혈구의 가장 중요한 기능은?",
+            options: [
+                "혈액 응고",
+                "산소 운반",
+                "항체 생성",
+                "식균 작용"
+            ],
+            answer: 1,
+            explanation: "적혈구는 헤모글로빈을 이용하여 산소를 운반합니다."
+        },
+
+        {
+            question: "헤모글로빈의 주요 기능은?",
+            options: [
+                "혈액 응고",
+                "산소 운반",
+                "항체 생성",
+                "호르몬 생성"
+            ],
+            answer: 1,
+            explanation: "헤모글로빈은 적혈구 안에 존재하며 산소 운반에 중요한 역할을 합니다."
+        },
+
+        {
+            question: "정상적인 적혈구의 형태는?",
+            options: [
+                "구형",
+                "양면오목 원반형",
+                "방추형",
+                "입방형"
+            ],
+            answer: 1,
+            explanation: "정상 적혈구는 중앙이 오목한 양면오목 원반형입니다."
+        },
+
+        {
+            question: "성숙한 정상 적혈구의 특징으로 옳은 것은?",
+            options: [
+                "핵이 있다",
+                "핵과 대부분의 세포소기관이 없다",
+                "미토콘드리아가 많다",
+                "DNA 합성을 활발히 한다"
+            ],
+            answer: 1,
+            explanation: "성숙 적혈구는 핵과 대부분의 세포소기관이 없어 산소 운반에 특화되어 있습니다."
+        },
+
+        {
+            question: "골수에서 적혈구 생성 상태를 평가할 때 이용되는 세포는?",
+            options: [
+                "호중구",
+                "망상적혈구",
+                "단핵구",
+                "혈소판"
+            ],
+            answer: 1,
+            explanation: "망상적혈구는 비교적 미성숙한 적혈구로 골수의 적혈구 생성 상태를 평가하는 데 이용됩니다."
+        },
+
+        {
+            question: "다음 중 백혈구가 아닌 것은?",
+            options: [
+                "호중구",
+                "림프구",
+                "단핵구",
+                "혈소판"
+            ],
+            answer: 3,
+            explanation: "혈소판은 백혈구가 아니라 혈액 응고에 관여하는 세포 조각입니다."
+        },
+
+        {
+            question: "정상 말초혈액에서 가장 많은 백혈구는?",
+            options: [
+                "호산구",
+                "호염기구",
+                "호중구",
+                "단핵구"
+            ],
+            answer: 2,
+            explanation: "정상 말초혈액에서 호중구가 가장 많은 비율을 차지합니다."
+        },
+
+        {
+            question: "호산구와 관련이 가장 큰 것은?",
+            options: [
+                "기생충 감염과 알레르기 반응",
+                "혈액 응고",
+                "산소 운반",
+                "적혈구 생성"
+            ],
+            answer: 0,
+            explanation: "호산구는 기생충 감염 및 알레르기 반응과 관련이 있습니다."
+        },
+
+        {
+            question: "림프구의 주요 기능과 가장 관련 있는 것은?",
+            options: [
+                "적혈구 생성",
+                "적응면역",
+                "혈액 응고",
+                "산소 운반"
+            ],
+            answer: 1,
+            explanation: "림프구는 B세포와 T세포 등을 포함하며 적응면역에 중요한 역할을 합니다."
+        },
+
+        {
+            question: "단핵구가 조직으로 이동한 후 분화할 수 있는 세포는?",
+            options: [
+                "대식세포",
+                "적혈구",
+                "혈소판",
+                "호산구"
+            ],
+            answer: 0,
+            explanation: "단핵구는 조직으로 이동하여 대식세포 등으로 분화할 수 있습니다."
+        },
+
+        {
+            question: "혈소판의 주요 기능은?",
+            options: [
+                "산소 운반",
+                "혈액 응고와 지혈",
+                "항체 생성",
+                "이산화탄소 생성"
+            ],
+            answer: 1,
+            explanation: "혈소판은 혈관 손상 부위에서 지혈과 혈전 형성에 중요한 역할을 합니다."
+        },
+
+        {
+            question: "지혈 과정에서 혈관 손상 직후 나타나는 반응은?",
+            options: [
+                "혈관 수축",
+                "적혈구 생성",
+                "항체 생성",
+                "용혈"
+            ],
+            answer: 0,
+            explanation: "혈관이 손상되면 초기에는 혈관 수축이 일어나 혈액 손실을 줄입니다."
+        },
+
+        {
+            question: "일반적인 혈액학 검사에서 항응고제로 가장 많이 사용되는 것은?",
+            options: [
+                "EDTA",
+                "헤파린",
+                "구연산나트륨",
+                "불화나트륨"
+            ],
+            answer: 0,
+            explanation: "CBC 등 일반적인 혈액학 검사에는 EDTA가 대표적인 항응고제로 사용됩니다."
+        },
+
+        {
+            question: "EDTA가 들어 있는 채혈관의 일반적인 마개 색은?",
+            options: [
+                "빨간색",
+                "보라색",
+                "파란색",
+                "회색"
+            ],
+            answer: 1,
+            explanation: "EDTA 혈액관은 일반적으로 보라색 마개를 사용합니다."
+        },
+
+        {
+            question: "CBC(일반혈액검사)에 포함되는 항목으로 가장 적절한 것은?",
+            options: [
+                "적혈구, 백혈구, 혈소판",
+                "혈당, 콜레스테롤, 중성지방",
+                "AST, ALT, ALP",
+                "요소, 크레아티닌, 요산"
+            ],
+            answer: 0,
+            explanation: "CBC는 적혈구, 백혈구, 혈소판 등의 혈액세포 관련 정보를 평가합니다."
+        },
+
+        {
+            question: "헤마토크릿(Hct)은 무엇을 의미하는가?",
+            options: [
+                "혈액 내 백혈구의 수",
+                "혈액 내 혈소판의 수",
+                "혈액에서 적혈구가 차지하는 용적 비율",
+                "혈장 단백질 농도"
+            ],
+            answer: 2,
+            explanation: "헤마토크릿은 전체 혈액 용적 중 적혈구가 차지하는 비율입니다."
+        },
+
+        {
+            question: "MCV가 의미하는 것은?",
+            options: [
+                "평균 적혈구 용적",
+                "평균 혈소판 수",
+                "백혈구 수",
+                "헤모글로빈 농도"
+            ],
+            answer: 0,
+            explanation: "MCV는 Mean Corpuscular Volume의 약자로 평균 적혈구 용적을 의미합니다."
+        },
+
+        {
+            question: "MCV가 감소한 빈혈은 일반적으로 어떤 형태인가?",
+            options: [
+                "대구성 빈혈",
+                "정구성 빈혈",
+                "소구성 빈혈",
+                "거대적혈구증"
+            ],
+            answer: 2,
+            explanation: "MCV가 감소하면 적혈구가 작은 소구성 빈혈을 생각할 수 있습니다."
+        },
+
+        {
+            question: "말초혈액도말검사의 주요 목적은?",
+            options: [
+                "혈액세포의 형태와 분포 관찰",
+                "혈당 측정",
+                "혈액의 pH 측정",
+                "혈압 측정"
+            ],
+            answer: 0,
+            explanation: "말초혈액도말검사는 적혈구, 백혈구, 혈소판의 형태와 분포 등을 관찰하는 데 사용됩니다."
+        }
+
+    ];
+
+
+    const physiologyQuestions = [
+
+        {
+            question: "인체에서 산소와 이산화탄소의 교환이 주로 일어나는 곳은?",
+            options: [
+                "기관",
+                "폐포",
+                "후두",
+                "식도"
+            ],
+            answer: 1,
+            explanation: "폐포와 모세혈관 사이에서 산소와 이산화탄소의 기체교환이 일어납니다."
+        },
+
+        {
+            question: "심장의 우심방으로 들어오는 혈액은 주로 어디에서 오는가?",
+            options: [
+                "폐정맥",
+                "대동맥",
+                "대정맥",
+                "폐동맥"
+            ],
+            answer: 2,
+            explanation: "상대정맥과 하대정맥을 통해 전신의 정맥혈이 우심방으로 들어옵니다."
+        },
+
+        {
+            question: "심장의 좌심실에서 혈액이 나가는 혈관은?",
+            options: [
+                "폐동맥",
+                "대동맥",
+                "상대정맥",
+                "폐정맥"
+            ],
+            answer: 1,
+            explanation: "좌심실은 대동맥을 통해 산소가 풍부한 혈액을 전신으로 내보냅니다."
+        },
+
+        {
+            question: "심장 박동을 시작하는 정상적인 일차적 박동조율기는?",
+            options: [
+                "방실결절",
+                "동방결절",
+                "히스속",
+                "푸르키녜 섬유"
+            ],
+            answer: 1,
+            explanation: "동방결절(SA node)은 정상적인 심장 박동을 시작하는 주된 박동조율기입니다."
+        },
+
+        {
+            question: "혈압을 결정하는 주요 요인으로 가장 적절한 것은?",
+            options: [
+                "심박출량과 말초혈관저항",
+                "체온과 산소포화도",
+                "혈액형과 체온",
+                "호흡수와 체온"
+            ],
+            answer: 0,
+            explanation: "혈압은 크게 심박출량과 전신 혈관저항의 영향을 받습니다."
+        },
+
+        {
+            question: "심박출량(CO)은 무엇과 무엇의 곱인가?",
+            options: [
+                "심박수 × 1회박출량",
+                "혈압 × 혈류량",
+                "호흡수 × 1회호흡량",
+                "맥박 × 혈압"
+            ],
+            answer: 0,
+            explanation: "심박출량은 심박수와 1회박출량의 곱으로 계산됩니다."
+        },
+
+        {
+            question: "신장의 가장 중요한 기능 중 하나는?",
+            options: [
+                "혈액의 산소 운반",
+                "체액과 전해질 조절",
+                "음식물의 소화",
+                "담즙 생성"
+            ],
+            answer: 1,
+            explanation: "신장은 체액량, 전해질, 산-염기 균형 등을 조절합니다."
+        },
+
+        {
+            question: "소변이 처음 만들어지는 기본적인 구조적·기능적 단위는?",
+            options: [
+                "폐포",
+                "네프론",
+                "뉴런",
+                "사구체만"
+            ],
+            answer: 1,
+            explanation: "네프론은 신장의 기본적인 구조적·기능적 단위입니다."
+        },
+
+        {
+            question: "사구체에서 일어나는 주요 과정은?",
+            options: [
+                "여과",
+                "소화",
+                "산소 운반",
+                "혈액 응고"
+            ],
+            answer: 0,
+            explanation: "사구체에서는 혈액이 여과되어 여과액이 형성됩니다."
+        },
+
+        {
+            question: "ADH의 주요 기능은?",
+            options: [
+                "수분 재흡수 증가",
+                "혈당 감소",
+                "심박수 감소",
+                "산소 운반 증가"
+            ],
+            answer: 0,
+            explanation: "ADH는 신장에서 물의 재흡수를 증가시켜 체내 수분을 보존하는 데 도움을 줍니다."
+        },
+
+        {
+            question: "인슐린의 주요 작용은?",
+            options: [
+                "혈당 상승",
+                "혈당 감소",
+                "혈압 상승",
+                "체온 상승"
+            ],
+            answer: 1,
+            explanation: "인슐린은 세포의 포도당 이용과 저장을 촉진하여 혈당을 낮춥니다."
+        },
+
+        {
+            question: "글루카곤의 주요 작용은?",
+            options: [
+                "혈당 감소",
+                "혈당 상승",
+                "체온 감소",
+                "혈액 응고 억제"
+            ],
+            answer: 1,
+            explanation: "글루카곤은 간에서 저장된 글리코겐 분해 등을 촉진하여 혈당을 상승시킵니다."
+        },
+
+        {
+            question: "갑상샘 호르몬의 주요 기능과 관련 있는 것은?",
+            options: [
+                "기초대사 조절",
+                "혈액 응고",
+                "소변 저장",
+                "청각 조절"
+            ],
+            answer: 0,
+            explanation: "갑상샘 호르몬은 신체의 에너지 대사와 기초대사 조절에 중요한 역할을 합니다."
+        },
+
+        {
+            question: "교감신경이 활성화되었을 때 일반적으로 나타나는 반응은?",
+            options: [
+                "심박수 증가",
+                "심박수 감소",
+                "동공 수축",
+                "소화활동 증가"
+            ],
+            answer: 0,
+            explanation: "교감신경 활성화는 심박수 증가 등 'fight or flight' 반응과 관련됩니다."
+        },
+
+        {
+            question: "부교감신경의 기능과 가장 관련 있는 것은?",
+            options: [
+                "휴식과 소화",
+                "심박수 증가",
+                "동공 확대",
+                "혈당 급격한 상승"
+            ],
+            answer: 0,
+            explanation: "부교감신경은 휴식과 소화 상태를 촉진하는 방향으로 작용합니다."
+        },
+
+        {
+            question: "호흡 운동에서 횡격막이 수축하면 어떻게 되는가?",
+            options: [
+                "흉강 용적이 감소한다",
+                "흉강 용적이 증가한다",
+                "폐가 수축한다",
+                "공기가 밖으로 나간다"
+            ],
+            answer: 1,
+            explanation: "횡격막이 수축하면 아래로 내려가 흉강 용적이 증가하고, 공기가 폐로 들어옵니다."
+        },
+
+        {
+            question: "혈액의 정상적인 pH를 유지하는 데 가장 직접적으로 관여하는 기관은?",
+            options: [
+                "폐와 신장",
+                "위와 췌장",
+                "피부와 눈",
+                "담낭과 비장"
+            ],
+            answer: 0,
+            explanation: "폐는 이산화탄소 배출을 조절하고, 신장은 수소이온 및 중탄산염 조절을 통해 산-염기 균형에 관여합니다."
+        },
+
+        {
+            question: "체온 조절의 중추로 알려진 뇌 부위는?",
+            options: [
+                "시상하부",
+                "소뇌",
+                "연수",
+                "해마"
+            ],
+            answer: 0,
+            explanation: "시상하부는 체온 조절을 포함한 다양한 항상성 조절에 중요한 역할을 합니다."
+        },
+
+        {
+            question: "뉴런에서 활동전위가 발생하는 데 중요한 이온은?",
+            options: [
+                "나트륨 이온",
+                "철 이온",
+                "칼슘 이온만",
+                "요오드 이온"
+            ],
+            answer: 0,
+            explanation: "활동전위의 탈분극 과정에는 주로 나트륨 이온의 세포 내 유입이 중요합니다."
+        },
+
+        {
+            question: "항상성(homeostasis)이란 무엇인가?",
+            options: [
+                "외부 환경이 항상 일정한 상태",
+                "체내 환경을 일정한 범위로 유지하는 능력",
+                "심장 박동이 멈추는 상태",
+                "혈액이 응고되는 과정"
+            ],
+            answer: 1,
+            explanation: "항상성은 외부 환경이 변하더라도 체내 환경을 일정한 범위로 유지하는 능력입니다."
+        }
+
+    ];
+
+
+    /* =========================
+       학습 데이터
+    ========================= */
+
+    let studyData = JSON.parse(
+        localStorage.getItem("labQStudyData")
+    ) || {
+        solved: 0,
+        correct: 0,
+        wrongQuestions: [],
+        subjects: {
+            hematology: {
+                solved: 0,
+                correct: 0
+            },
+            physiology: {
+                solved: 0,
+                correct: 0
+            }
+        },
+        dailySolved: 0,
+        dailyDate: ""
+    };
+
+
+    let currentSubject = "hematology";
+    let currentMode = "basic";
+
+    let quizQuestions = [];
+    let currentQuestion = 0;
+    let score = 0;
+
+    let answered = false;
+
+    let wrongFilter = "all";
+
+
+    /* =========================
+       화면 전환
+    ========================= */
+
+    function hideAllScreens() {
+
+        document.querySelectorAll(".screen").forEach(screen => {
+            screen.classList.remove("active");
+        });
+
+    }
+
+
+    function goHome() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("homeScreen")
+            .classList.add("active");
+
+        updateHome();
+
+    }
+
+
+    /* =========================
+       과목 선택
+    ========================= */
+
+    function selectSubject(subject) {
+
+        currentSubject = subject;
+
+        const title = document.getElementById(
+            "modeSubjectTitle"
+        );
+
+        if (subject === "hematology") {
+            title.textContent = "🩸 혈액학";
+        } else {
+            title.textContent = "🫀 생리학";
+        }
+
+        hideAllScreens();
+
+        document
+            .getElementById("modeScreen")
+            .classList.add("active");
+
+    }
+
+
+    /* =========================
+       과목별 문제 가져오기
+    ========================= */
+
+    function getSubjectQuestions(subject) {
+
+        if (subject === "hematology") {
+            return hematologyQuestions;
+        }
+
+        if (subject === "physiology") {
+            return physiologyQuestions;
+        }
+
+        return [];
+
+    }
+
+
+    /* =========================
+       전체 문제 가져오기
+       → 오늘의 목표용
+    ========================= */
+
+    function getAllQuestions() {
+
+        const hematology = hematologyQuestions.map(q => ({
+            ...q,
+            subject: "hematology"
+        }));
+
+        const physiology = physiologyQuestions.map(q => ({
+            ...q,
+            subject: "physiology"
+        }));
+
+        return [
+            ...hematology,
+            ...physiology
+        ];
+
+    }
+
+
+    /* =========================
+       오늘의 5문제
+    ========================= */
+
+    function startDailyQuiz() {
+
+        const allQuestions = getAllQuestions();
+
+        const shuffled = shuffleArray(allQuestions);
+
+        quizQuestions = shuffled.slice(0, 5);
+
+        currentQuestion = 0;
+        score = 0;
+
+        currentMode = "daily";
+        currentSubject = "all";
+
+        showQuiz();
+
+    }
+
+
+    /* =========================
+       일반 퀴즈 시작
+    ========================= */
+
+    function startQuiz(mode) {
+
+        currentMode = mode;
+
+        let questions = getSubjectQuestions(
+            currentSubject
+        );
+
+        if (mode === "wrong") {
+
+            const wrong = studyData.wrongQuestions
+                .filter(item => item.subject === currentSubject);
+
+            if (wrong.length === 0) {
+
+                alert(
+                    "아직 이 과목의 오답 문제가 없어요!"
+                );
+
+                return;
+            }
+
+            questions = wrong.map(item => item.question);
+
+        }
+
+        if (mode === "random") {
+            questions = shuffleArray(questions);
+        }
+
+        quizQuestions = [...questions];
+
+        currentQuestion = 0;
+        score = 0;
+
+        showQuiz();
+
+    }
+
+
+    /* =========================
+       배열 섞기
+    ========================= */
+
+    function shuffleArray(array) {
+
+        const copied = [...array];
+
+        for (
+            let i = copied.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const j = Math.floor(
+                Math.random() * (i + 1)
+            );
+
+            [
+                copied[i],
+                copied[j]
+            ] = [
+                copied[j],
+                copied[i]
+            ];
+
+        }
+
+        return copied;
+
+    }
+
+
+    /* =========================
+       퀴즈 화면
+    ========================= */
+
+    function showQuiz() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("quizScreen")
+            .classList.add("active");
+
+        showQuestion();
+
+    }
+
+
+    /* =========================
+       문제 표시
+    ========================= */
+
+    function showQuestion() {
+
+        answered = false;
+
+        const question =
+            quizQuestions[currentQuestion];
+
+        const total =
+            quizQuestions.length;
+
+        document.getElementById(
+            "questionNumber"
+        ).textContent =
+            `${currentQuestion + 1} / ${total}`;
+
+
+        let subjectText = "";
+
+        if (currentMode === "daily") {
+
+            if (question.subject === "hematology") {
+                subjectText = "🩸 혈액학";
+            } else {
+                subjectText = "🫀 생리학";
+            }
+
+        } else {
+
+            if (currentSubject === "hematology") {
+                subjectText = "🩸 혈액학";
+            } else {
+                subjectText = "🫀 생리학";
+            }
+
+        }
+
+
+        document.getElementById(
+            "quizSubject"
+        ).textContent = subjectText;
+
+
+        document.getElementById(
+            "questionText"
+        ).textContent =
+            question.question;
+
+
+        const progress =
+            ((currentQuestion) / total) * 100;
+
+        document.getElementById(
+            "quizProgressFill"
+        ).style.width =
+            progress + "%";
+
+
+        const options =
+            document.getElementById("options");
+
+        options.innerHTML = "";
+
+
+        question.options.forEach(
+            (optionText, index) => {
+
+                const button =
+                    document.createElement("button");
+
+                button.className = "option";
+
+                button.textContent =
+                    `${index + 1}. ${optionText}`;
+
+                button.onclick = function() {
+
+                    checkAnswer(
+                        index,
+                        button
+                    );
+
+                };
+
+                options.appendChild(button);
+
+            }
+        );
+
+
+        document.getElementById(
+            "explanation"
+        ).classList.remove("show");
+
+
+        document.getElementById(
+            "nextButton"
+        ).disabled = true;
+
+
+        document.getElementById(
+            "nextButton"
+        ).textContent =
+            "정답을 선택해주세요";
+
+    }
+
+
+    /* =========================
+       정답 확인
+    ========================= */
+
+    function checkAnswer(
+        selectedIndex,
+        selectedButton
+    ) {
+
+        if (answered) {
+            return;
+        }
+
+        answered = true;
+
+        const question =
+            quizQuestions[currentQuestion];
+
+        const buttons =
+            document.querySelectorAll(".option");
+
+
+        buttons.forEach(button => {
+            button.classList.add("disabled");
+        });
+
+
+        if (
+            selectedIndex ===
+            question.answer
+        ) {
+
+            selectedButton.classList.add("correct");
+
+            score++;
+
+            studyData.correct++;
+
+            const subject =
+                question.subject ||
+                currentSubject;
+
+            if (
+                studyData.subjects[subject]
+            ) {
+
+                studyData.subjects[subject].correct++;
+
+            }
+
+            document.getElementById(
+                "answerStatus"
+            ).textContent =
+                "⭕ 정답이에요!";
+
+            document.getElementById(
+                "answerStatus"
+            ).className =
+                "answer-status correct-text";
+
+
+        } else {
+
+            selectedButton.classList.add("wrong");
+
+            buttons[
+                question.answer
+            ].classList.add("correct");
+
+
+            saveWrongQuestion(question);
+
+
+            document.getElementById(
+                "answerStatus"
+            ).textContent =
+                "❌ 아쉬워요!";
+
+            document.getElementById(
+                "answerStatus"
+            ).className =
+                "answer-status wrong-text";
+
+        }
+
+
+        const subject =
+            question.subject ||
+            currentSubject;
+
+
+        if (
+            studyData.subjects[subject]
+        ) {
+
+            studyData.subjects[subject].solved++;
+
+        }
+
+
+        studyData.solved++;
+
+
+        if (currentMode === "daily") {
+
+            studyData.dailySolved++;
+
+        }
+
+
+        saveStudyData();
+
+
+        document.getElementById(
+            "explanationText"
+        ).textContent =
+            question.explanation;
+
+
+        document.getElementById(
+            "explanation"
+        ).classList.add("show");
+
+
+        const nextButton =
+            document.getElementById(
+                "nextButton"
+            );
+
+        nextButton.disabled = false;
+
+        if (
+            currentQuestion ===
+            quizQuestions.length - 1
+        ) {
+
+            nextButton.textContent =
+                "결과 보기";
+
+        } else {
+
+            nextButton.textContent =
+                "다음 문제 →";
+
+        }
+
+    }
+
+
+    /* =========================
+       오답 저장
+    ========================= */
+
+    function saveWrongQuestion(question) {
+
+        const subject =
+            question.subject ||
+            currentSubject;
+
+
+        const exists =
+            studyData.wrongQuestions.some(
+                item =>
+                    item.subject === subject &&
+                    item.question.question ===
+                    question.question
+            );
+
+
+        if (!exists) {
+
+            studyData.wrongQuestions.push({
+
+                subject: subject,
+
+                question: {
+                    question: question.question,
+                    options: [...question.options],
+                    answer: question.answer,
+                    explanation: question.explanation
+                }
+
+            });
+
+        }
+
+    }
+
+
+    /* =========================
+       다음 문제
+    ========================= */
+
+    function nextQuestion() {
+
+        if (!answered) {
+            return;
+        }
+
+
+        if (
+            currentQuestion >=
+            quizQuestions.length - 1
+        ) {
+
+            showResult();
+
+            return;
+
+        }
+
+
+        currentQuestion++;
+
+        showQuestion();
+
+    }
+
+
+    /* =========================
+       결과 화면
+    ========================= */
+
+    function showResult() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("resultScreen")
+            .classList.add("active");
+
+
+        const total =
+            quizQuestions.length;
+
+
+        document.getElementById(
+            "resultScore"
+        ).textContent =
+            `${score} / ${total}`;
+
+
+        const percentage =
+            Math.round(
+                (score / total) * 100
+            );
+
+
+        let message = "";
+
+
+        if (percentage === 100) {
+            message =
+                "완벽해요! 🎉";
+        } else if (percentage >= 80) {
+            message =
+                "정말 잘했어요! 👏";
+        } else if (percentage >= 60) {
+            message =
+                "조금만 더 복습해봐요! 💪";
+        } else {
+            message =
+                "오답노트로 다시 공부해봐요! 📚";
+        }
+
+
+        if (currentMode === "daily") {
+
+            message =
+                `오늘의 5문제를 완료했어요! ${message}`;
+
+        }
+
+
+        document.getElementById(
+            "resultMessage"
+        ).textContent =
+            message;
+
+
+        updateHome();
+
+    }
+
+
+    /* =========================
+       다시 풀기
+    ========================= */
+
+    function retryQuiz() {
+
+        if (currentMode === "daily") {
+
+            startDailyQuiz();
+
+            return;
+
+        }
+
+
+        startQuiz(currentMode);
+
+    }
+
+
+    /* =========================
+       퀴즈 나가기
+    ========================= */
+
+    function exitQuiz() {
+
+        const confirmExit =
+            confirm(
+                "퀴즈를 그만두고 홈으로 돌아갈까요?"
+            );
+
+
+        if (confirmExit) {
+
+            currentQuestion = 0;
+            score = 0;
+            quizQuestions = [];
+            answered = false;
+
+            goHome();
+
+        }
+
+    }
+
+
+    /* =========================
+       오답노트
+    ========================= */
+
+    function showWrongNotebook() {
+
+        hideAllScreens();
+
+        wrongFilter = "all";
+
+        document
+            .getElementById("wrongScreen")
+            .classList.add("active");
+
+        updateWrongTabs();
+
+        renderWrongNotebook();
+
+    }
+
+
+    function setWrongFilter(filter) {
+
+        wrongFilter = filter;
+
+        updateWrongTabs();
+
+        renderWrongNotebook();
+
+    }
+
+
+    function updateWrongTabs() {
+
+        document
+            .getElementById("wrongTabAll")
+            .classList.remove("active");
+
+        document
+            .getElementById("wrongTabHematology")
+            .classList.remove("active");
+
+        document
+            .getElementById("wrongTabPhysiology")
+            .classList.remove("active");
+
+
+        if (wrongFilter === "all") {
+
+            document
+                .getElementById("wrongTabAll")
+                .classList.add("active");
+
+        }
+
+        if (
+            wrongFilter === "hematology"
+        ) {
+
+            document
+                .getElementById("wrongTabHematology")
+                .classList.add("active");
+
+        }
+
+        if (
+            wrongFilter === "physiology"
+        ) {
+
+            document
+                .getElementById("wrongTabPhysiology")
+                .classList.add("active");
+
+        }
+
+    }
+
+
+    function renderWrongNotebook() {
+
+        const list =
+            document.getElementById(
+                "wrongList"
+            );
+
+
+        let wrongQuestions =
+            studyData.wrongQuestions;
+
+
+        if (wrongFilter !== "all") {
+
+            wrongQuestions =
+                wrongQuestions.filter(
+                    item =>
+                        item.subject ===
+                        wrongFilter
+                );
+
+        }
+
+
+        if (
+            wrongQuestions.length === 0
+        ) {
+
+            list.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📭
+                    </div>
+
+                    <div>
+                        아직 오답 문제가 없어요.
+                    </div>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        list.innerHTML = "";
+
+
+        wrongQuestions.forEach(
+            (item, index) => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "wrong-card";
+
+
+                const subjectName =
+                    item.subject ===
+                    "hematology"
+                        ? "🩸 혈액학"
+                        : "🫀 생리학";
+
+
+                card.innerHTML = `
+
+                    <div class="wrong-subject">
+                        ${subjectName}
+                    </div>
+
+                    <div class="wrong-question">
+                        ${item.question.question}
+                    </div>
+
+                    <div class="wrong-answer">
+                        <strong>정답:</strong>
+                        ${item.question.options[item.question.answer]}
+                        <br><br>
+                        <strong>해설:</strong>
+                        ${item.question.explanation}
+                    </div>
+
+                    <button
+                        class="remove-wrong"
+                        onclick="removeWrongQuestion(${getOriginalWrongIndex(item)})"
+                    >
+                        ✓ 복습 완료 · 오답에서 삭제
+                    </button>
+
+                `;
+
+
+                list.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+    function getOriginalWrongIndex(item) {
+
+        return studyData.wrongQuestions.indexOf(
+            item
+        );
+
+    }
+
+
+    function removeWrongQuestion(index) {
+
+        studyData.wrongQuestions.splice(
+            index,
+            1
+        );
+
+
+        saveStudyData();
+
+        renderWrongNotebook();
+
+        showToast(
+            "오답노트에서 삭제했어요."
+        );
+
+    }
+
+
+    /* =========================
+       MY PAGE
+    ========================= */
+
+    function showMyPage() {
+
+        hideAllScreens();
+
+        document
+            .getElementById("myScreen")
+            .classList.add("active");
+
+        updateMyPage();
+
+    }
+
+
+    function updateMyPage() {
+
+        const solved =
+            studyData.solved;
+
+        const correct =
+            studyData.correct;
+
+
+        document.getElementById(
+            "totalSolved"
+        ).textContent =
+            solved;
+
+
+        document.getElementById(
+            "totalCorrect"
+        ).textContent =
+            correct;
+
+
+        const accuracy =
+            solved === 0
+                ? 0
+                : Math.round(
+                    (correct / solved) * 100
+                );
+
+
+        document.getElementById(
+            "accuracy"
+        ).textContent =
+            accuracy + "%";
+
+
+        updateSubjectStat(
+            "hematology"
+        );
+
+        updateSubjectStat(
+            "physiology"
+        );
+
+    }
+
+
+    function updateSubjectStat(subject) {
+
+        const data =
+            studyData.subjects[subject];
+
+
+        const total =
+            getSubjectQuestions(
+                subject
+            ).length;
+
+
+        const solved =
+            data.solved;
+
+
+        const correct =
+            data.correct;
+
+
+        const progress =
+            total === 0
+                ? 0
+                : Math.min(
+                    100,
+                    Math.round(
+                        (solved / total) * 100
+                    )
+                );
+
+
+        const accuracy =
+            solved === 0
+                ? 0
+                : Math.round(
+                    (correct / solved) * 100
+                );
+
+
+        if (subject === "hematology") {
+
+            document.getElementById(
+                "myHematologyAccuracy"
+            ).textContent =
+                accuracy + "%";
+
+
+            document.getElementById(
+                "myHematologyProgress"
+            ).style.width =
+                progress + "%";
+
+
+            document.getElementById(
+                "myHematologyText"
+            ).textContent =
+                `${solved} / ${total} 문제`;
+
+        }
+
+
+        if (subject === "physiology") {
+
+            document.getElementById(
+                "myPhysiologyAccuracy"
+            ).textContent =
+                accuracy + "%";
+
+
+            document.getElementById(
+                "myPhysiologyProgress"
+            ).style.width =
+                progress + "%";
+
+
+            document.getElementById(
+                "myPhysiologyText"
+            ).textContent =
+                `${solved} / ${total} 문제`;
+
+        }
+
+    }
+
+
+    /* =========================
+       홈 화면 기록 업데이트
+    ========================= */
+
+    function updateHome() {
+
+        updateSubjectHome(
+            "hematology"
+        );
+
+        updateSubjectHome(
+            "physiology"
+        );
+
+
+        const today =
+            new Date().toISOString().slice(
+                0,
+                10
+            );
+
+
+        if (
+            studyData.dailyDate !== today
+        ) {
+
+            studyData.dailyDate =
+                today;
+
+            studyData.dailySolved =
+                0;
+
+            saveStudyData();
+
+        }
+
+
+        const daily =
+            Math.min(
+                5,
+                studyData.dailySolved
+            );
+
+
+        document.getElementById(
+            "dailyCount"
+        ).textContent =
+            `${daily} / 5`;
+
+
+        document.getElementById(
+            "dailyBarFill"
+        ).style.width =
+            ((daily / 5) * 100) + "%";
+
+    }
+
+
+    function updateSubjectHome(subject) {
+
+        const data =
+            studyData.subjects[subject];
+
+
+        const total =
+            getSubjectQuestions(
+                subject
+            ).length;
+
+
+        const progress =
+            total === 0
+                ? 0
+                : Math.min(
+                    100,
+                    Math.round(
+                        (data.solved / total) * 100
+                    )
+                );
+
+
+        document.getElementById(
+            subject + "Progress"
+        ).style.width =
+            progress + "%";
+
+
+        document.getElementById(
+            subject + "ProgressText"
+        ).textContent =
+            progress + "%";
+
+    }
+
+
+    /* =========================
+       과목 검색
+    ========================= */
+
+    function searchSubjects() {
+
+        const keyword =
+            document.getElementById(
+                "searchInput"
+            ).value
+            .toLowerCase()
+            .trim();
+
+
+        document
+            .querySelectorAll(".subject-card")
+            .forEach(card => {
+
+                const name =
+                    card.dataset.name
+                    .toLowerCase();
+
+
+                if (
+                    name.includes(keyword)
+                ) {
+
+                    card.style.display =
+                        "block";
+
+                } else {
+
+                    card.style.display =
+                        "none";
+
+                }
+
+            });
+
+    }
+
+
+    /* =========================
+       데이터 저장
+    ========================= */
+
+    function saveStudyData() {
+
+        localStorage.setItem(
+            "labQStudyData",
+            JSON.stringify(
+                studyData
+            )
+        );
+
+    }
+
+
+    /* =========================
+       데이터 초기화
+    ========================= */
+
+    function resetAllData() {
+
+        const confirmReset =
+            confirm(
+                "모든 학습 기록과 오답노트를 삭제할까요?"
+            );
+
+
+        if (!confirmReset) {
+            return;
+        }
+
+
+        studyData = {
+
+            solved: 0,
+
+            correct: 0,
+
+            wrongQuestions: [],
+
+            subjects: {
+
+                hematology: {
+                    solved: 0,
+                    correct: 0
+                },
+
+                physiology: {
+                    solved: 0,
+                    correct: 0
+                }
+
+            },
+
+            dailySolved: 0,
+
+            dailyDate: ""
+
+        };
+
+
+        saveStudyData();
+
+        updateMyPage();
+
+        updateHome();
+
+        showToast(
+            "학습 기록을 초기화했어요."
+        );
+
+    }
+
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        toast.textContent =
+            message;
+
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 1800);
+
+    }
+
+
+    /* =========================
+       시작
+    ========================= */
+
+    updateHome();
+
+</script>
+
+</body>
+</html>
